@@ -1,6 +1,23 @@
-﻿namespace CustomerOrder.API.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace CustomerOrder.API.Entities
 {
-    public class Customer
+    public class Customer(string firstName, string lastName, string email)
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(50)]
+        public string FirstName { get; set; } = firstName;
+        [Required]
+        [MaxLength(50)]
+        public string LastName { get; set; } = lastName;
+        [Required]
+        [MaxLength(50)]
+        public string Email { get; set; } = email;
+        [Required]
+        public int NumberOfOrders { get; set; } = 0;
     }
 }
