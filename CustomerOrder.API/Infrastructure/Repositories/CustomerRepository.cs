@@ -19,11 +19,18 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
     {
         var customer = await _context.Customers.Where(c => id == c.Id).FirstOrDefaultAsync();
 
-        if ( null == customer)
+        if (null == customer)
         {
             throw NotFoundException.ForClass(nameof(Customer));
         }
 
-        return await _context.Customers.Where(c => id == c.Id).FirstAsync();
+        return customer;
+    }
+
+    public async Task IncreaseNumberOfOrdersAsync(int id)
+    {
+        await _context.Customers.Where(c => id == c.Id).ExecuteUpdateAsync(
+            setters => setters.SetProperty(c => c.NumberOfOrders, c => c.NumberOfOrders + 1)
+        );
     }
 }

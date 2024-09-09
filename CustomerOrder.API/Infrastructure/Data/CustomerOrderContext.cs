@@ -15,9 +15,9 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
             new Customer("Jane", "Doe", "jane.doe@test.test", 1) { Id = 2 }
         );
         modelBuilder.Entity<Order>().HasData(
-            new Order("Order 1", 1.99) { Id = 1, CustomerId = 1, CreationDate = new DateTime(2024, 1, 2) },
-            new Order("Order 2", 2.99) { Id = 2, CustomerId = 1, CreationDate = new DateTime(2024, 2, 4) },
-            new Order("Order 3", 3.99) { Id = 3, CustomerId = 2, CreationDate = new DateTime(2024, 3, 6) }
+            new Order(1, "Order 1", 1.99) { Id = 1, CreationDate = new DateTime(2024, 1, 2) },
+            new Order(1, "Order 2", 2.99) { Id = 2, CreationDate = new DateTime(2024, 2, 4) },
+            new Order(2, "Order 3", 3.99) { Id = 3, CreationDate = new DateTime(2024, 3, 6) }
         );
 
 

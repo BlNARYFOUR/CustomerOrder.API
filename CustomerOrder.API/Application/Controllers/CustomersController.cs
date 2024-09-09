@@ -1,6 +1,7 @@
 ﻿using CustomerOrder.API.Application.Dtos;
-using CustomerOrder.API.Application.Services.Mappers;
-using CustomerOrder.API.Domain.Repositories;
+using CustomerOrder.API.Application.Mappers.Interfaces;
+using CustomerOrder.API.Domain.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerOrder.API.Application.Controllers;
@@ -8,24 +9,24 @@ namespace CustomerOrder.API.Application.Controllers;
 [Route("api/customers")]
 [ApiController]
 public class CustomersController(
-    ICustomerRepository repository,
+    ISender requestBus,
     ICustomerMapper mapper,
     ICustomerListMapper listMapper
 ) : ControllerBase {
-    private readonly ICustomerRepository _customerRepository = repository ?? throw new ArgumentNullException(nameof(repository));
+    private readonly ISender _requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
     private readonly ICustomerMapper _customerMapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     private readonly ICustomerListMapper _customerListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
 
     [HttpGet]
-    public async Task<ActionResult<Customer>> GetList()
+    public async Task<ActionResult<CustomerGet>> GetList()
     {
-        return Ok(_customerListMapper.ToDto(await _customerRepository.GetAllAsync()));
+        return Ok(_customerListMapper.ToDto(await _requestBus.Send(new GetCustomerListQuery())));
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<Customer>>> GetById(int id)
+    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetById(int id)
     {
-        return Ok(_customerMapper.ToDto(await _customerRepository.GetByIdAsync(id)));
+        return Ok(_customerMapper.ToDto(await _requestBus.Send(new GetCustomerByIdQuery(id))));
     }
 
     // todo

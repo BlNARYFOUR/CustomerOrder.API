@@ -4,6 +4,7 @@ using CustomerOrder.API.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerOrder.API.Migrations
 {
     [DbContext(typeof(CustomerOrderContext))]
-    partial class CustomerOrderContextModelSnapshot : ModelSnapshot
+    [Migration("20240909163248_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,24 +54,6 @@ namespace CustomerOrder.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "john.doe@test.test",
-                            FirstName = "John",
-                            LastName = "Doe",
-                            NumberOfOrders = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "jane.doe@test.test",
-                            FirstName = "Jane",
-                            LastName = "Doe",
-                            NumberOfOrders = 1
-                        });
                 });
 
             modelBuilder.Entity("CustomerOrder.API.Domain.Entities.Order", b =>
@@ -98,32 +83,6 @@ namespace CustomerOrder.API.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreationDate = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 1,
-                            Description = "Order 1",
-                            Price = 1.99
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreationDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 1,
-                            Description = "Order 2",
-                            Price = 2.9900000000000002
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreationDate = new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 2,
-                            Description = "Order 3",
-                            Price = 3.9900000000000002
-                        });
                 });
 
             modelBuilder.Entity("CustomerOrder.API.Domain.Entities.Order", b =>

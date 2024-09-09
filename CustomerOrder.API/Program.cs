@@ -2,8 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using CustomerOrder.API.Infrastructure.Data;
 using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Infrastructure.Repositories;
-using CustomerOrder.API.Application.Services.Mappers;
 using CustomerOrder.API.Application.Filters;
+using CustomerOrder.API.Application.Mappers;
+using CustomerOrder.API.Application.Mappers.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,15 @@ builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
 builder.Services.AddTransient<ICustomerMapper, CustomerMapper>();
 builder.Services.AddTransient<ICustomerListMapper, CustomerListMapper>();
+builder.Services.AddTransient<IOrderMapper, OrderMapper>();
+builder.Services.AddTransient<IOrderListMapper, OrderListMapper>();
+
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();
 
