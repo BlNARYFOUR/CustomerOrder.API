@@ -4,27 +4,26 @@ using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerOrder.API.Infrastructure.Repositories
+namespace CustomerOrder.API.Infrastructure.Repositories;
+
+public class CustomerRepository(CustomerOrderContext context) : ICustomerRepository
 {
-    public class CustomerRepository(CustomerOrderContext context) : ICustomerRepository
+    private readonly CustomerOrderContext _context = context ?? throw new ArgumentNullException(nameof(context));
+
+    public async Task<IEnumerable<Customer>> GetAllAsync()
     {
-        private readonly CustomerOrderContext _context = context ?? throw new ArgumentNullException(nameof(context));
+        return await _context.Customers.OrderBy(c => c.Id).ToListAsync();
+    }
 
-        public async Task<IEnumerable<Customer>> GetAllAsync()
+    public async Task<Customer> GetByIdAsync(int id)
+    {
+        var customer = await _context.Customers.Where(c => id == c.Id).FirstOrDefaultAsync();
+
+        if ( null == customer)
         {
-            return await _context.Customers.OrderBy(c => c.Id).ToListAsync();
+            throw NotFoundException.ForClass(nameof(Customer));
         }
 
-        public async Task<Customer> GetByIdAsync(int id)
-        {
-            var customer = await _context.Customers.Where(c => id == c.Id).FirstOrDefaultAsync();
-
-            if ( null == customer)
-            {
-                throw NotFoundException.ForClass(nameof(Customer));
-            }
-
-            return await _context.Customers.Where(c => id == c.Id).FirstAsync();
-        }
+        return await _context.Customers.Where(c => id == c.Id).FirstAsync();
     }
 }

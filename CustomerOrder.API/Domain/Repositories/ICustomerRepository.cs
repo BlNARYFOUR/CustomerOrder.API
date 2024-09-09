@@ -1,10 +1,10 @@
 ﻿using CustomerOrder.API.Domain.Entities;
 
-namespace CustomerOrder.API.Domain.Repositories
+namespace CustomerOrder.API.Domain.Repositories;
+
+public interface ICustomerRepository
 {
-    public interface ICustomerRepository
-    {
-        Task<IEnumerable<Customer>> GetAllAsync();
-        Task<Customer> GetByIdAsync(int id);
-    }
+    public Task<IEnumerable<Customer>> GetAllAsync();
+    /// <exception cref="Exceptions.NotFoundException" />
+    public Task<Customer> GetByIdAsync(int id);
 }
