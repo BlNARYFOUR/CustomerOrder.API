@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CustomerOrder.API.Entities
+namespace CustomerOrder.API.Domain.Entities
 {
     public class Customer(string firstName, string lastName, string email)
     {
@@ -19,5 +19,7 @@ namespace CustomerOrder.API.Entities
         public string Email { get; set; } = email;
         [Required]
         public int NumberOfOrders { get; set; } = 0;
+
+        public ICollection<Order> Orders { get; set; } = [];
     }
 }

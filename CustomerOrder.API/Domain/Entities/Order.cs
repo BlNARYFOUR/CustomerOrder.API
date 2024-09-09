@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CustomerOrder.API.Entities
+namespace CustomerOrder.API.Domain.Entities
 {
-    public class Order(string description, float price)
+    public class Order(string description, double price)
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,11 +12,12 @@ namespace CustomerOrder.API.Entities
         [MaxLength(100)]
         public string Description { get; set; } = description;
         [Required]
-        public float Price { get; set; } = price;
+        public double Price { get; set; } = price;
         [Required]
+        [DataType(DataType.Date)]
         public DateTime CreationDate { get; set; } = DateTime.Now;
-        public int CityId { get; set; }
-        [ForeignKey("CityId")]
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
         public Customer? Customer { get; set; }
     }
 }
