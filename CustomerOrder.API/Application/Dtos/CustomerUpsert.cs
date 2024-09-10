@@ -5,7 +5,7 @@ public class CustomerUpsert(
     string lastName,
     string email
 ) {
-    public string FirstName { get; set; } = firstName;
-    public string LastName { get; set; } = lastName;
-    public string Email { get; set; } = email;
+    public string FirstName { get; } = firstName;
+    public string LastName { get; } = lastName;
+    public string Email { get; } = email;
 }

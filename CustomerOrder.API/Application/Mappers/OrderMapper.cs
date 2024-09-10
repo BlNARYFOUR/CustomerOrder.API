@@ -7,10 +7,10 @@ namespace CustomerOrder.API.Application.Mappers;
 
 public class OrderMapper : IOrderMapper
 {
-    public Order FromDto(OrderUpsert dto)
+    public Order FromDto(int customerId, OrderUpsert dto)
     {
         return new Order(
-            dto.CustomerId,
+            customerId,
             dto.Description,
             dto.Price
         );

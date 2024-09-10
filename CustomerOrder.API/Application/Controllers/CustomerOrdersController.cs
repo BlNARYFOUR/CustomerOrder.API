@@ -1,5 +1,7 @@
 ﻿using CustomerOrder.API.Application.Dtos;
+using CustomerOrder.API.Application.Mappers;
 using CustomerOrder.API.Application.Mappers.Interfaces;
+using CustomerOrder.API.Domain.Requests.Commands;
 using CustomerOrder.API.Domain.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +25,16 @@ public class CustomerOrdersController(
         return Ok(_orderListMapper.ToDto(await _requestBus.Send(
             new OrderGetListForCustomerQuery(customerId)
         )));
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<IEnumerable<CustomerGet>>> Create(int customerId, OrderUpsert dto)
+    {
+        await _requestBus.Send(new OrderCreateCommand(_orderMapper.FromDto(customerId, dto)));
+
+        return CreatedAtAction(nameof(GetList), new {
+            customerId,
+        }, new { status = StatusCodes.Status201Created });
     }
 
     // todo

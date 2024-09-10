@@ -1,5 +1,4 @@
-﻿using CustomerOrder.API.Domain.Entities;
-using CustomerOrder.API.Domain.Repositories;
+﻿using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Domain.Requests.Commands;
 using MediatR;
 

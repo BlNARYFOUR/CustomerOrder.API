@@ -11,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddDbContext<CustomerOrderContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("CustomerOrderContext") ?? throw new InvalidOperationException("Connection string 'CustomerOrderContext' not found.")));
-builder.Services.AddControllers(options => { options.ReturnHttpNotAcceptable = true; options.Filters.Add<NotFoundExceptionFilter>(); });
+builder.Services.AddControllers(options => {
+    options.ReturnHttpNotAcceptable = true;
+    options.Filters.Add<NotFoundExceptionFilter>();
+    options.Filters.Add<InvalidIdExceptionFilter>();
+});
 builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = ctx => {
     ctx.ProblemDetails.Extensions.Add("server", Environment.MachineName);
 });

@@ -4,7 +4,7 @@ public class NotFoundException : Exception
 {
     public static NotFoundException ForClass(string className)
     {
-        return new($"Resource not found. For class ${className}");
+        return new NotFoundException($"Resource not found. For class ${className}");
     }
 
     public NotFoundException(string message) : base(message) {}

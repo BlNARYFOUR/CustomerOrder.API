@@ -15,20 +15,11 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
         return await _context.Orders.Where(o => customerId == o.CustomerId).OrderByDescending(o => o.CreationDate).ToListAsync();
     }
 
-    public async Task<Order> GetByIdAsync(int id)
-    {
-        var order = await _context.Orders.Where(o => id == o.Id).FirstOrDefaultAsync();
-
-        if (null == order)
-        {
-            throw NotFoundException.ForClass(nameof(Order));
-        }
-
-        return order;
-    }
-
     public async Task<Order> CreateAsync(Order order)
     {
-        return (await _context.Orders.AddAsync(order)).Entity;
+        var createdOrder = _context.Orders.Add(order).Entity;
+        await _context.SaveChangesAsync();
+
+        return createdOrder;
     }
 }

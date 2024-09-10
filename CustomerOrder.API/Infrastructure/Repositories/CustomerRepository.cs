@@ -17,7 +17,7 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
 
     public async Task<Customer> GetByIdAsync(int id)
     {
-        var customer = await _context.Customers.Where(c => id == c.Id).FirstOrDefaultAsync();
+        var customer = await _context.Customers.FindAsync(id);
 
         if (null == customer)
         {
@@ -29,10 +29,10 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
 
     public async Task<Customer> CreateAsync(Customer customer)
     {
-        var updatedCustomer = _context.Customers.Add(customer).Entity;
+        var createdCustomer = _context.Customers.Add(customer).Entity;
         await _context.SaveChangesAsync();
 
-        return updatedCustomer;
+        return createdCustomer;
     }
 
     public async Task IncreaseNumberOfOrdersAsync(int id)
