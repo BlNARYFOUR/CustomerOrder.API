@@ -14,7 +14,6 @@ builder.Services.AddDbContext<CustomerOrderContext>(options => options.UseSqlSer
 builder.Services.AddControllers(options => {
     options.ReturnHttpNotAcceptable = true;
     options.Filters.Add<NotFoundExceptionFilter>();
-    options.Filters.Add<InvalidIdExceptionFilter>();
 });
 builder.Services.AddProblemDetails(options => options.CustomizeProblemDetails = ctx => {
     ctx.ProblemDetails.Extensions.Add("server", Environment.MachineName);

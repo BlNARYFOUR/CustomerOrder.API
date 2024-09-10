@@ -23,7 +23,8 @@ public class OrderMapper : IOrderMapper
             entity.CustomerId,
             entity.Description,
             entity.Price,
-            entity.CreationDate
+            entity.CreationDate,
+            entity.Status.ToString()
         );
     }
 }

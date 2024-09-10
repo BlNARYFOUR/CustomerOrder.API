@@ -22,4 +22,16 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
 
         return createdOrder;
     }
+
+    public async Task CancelAsync(int id)
+    {
+        var updatedRows = await _context.Orders.Where(o => id == o.Id).ExecuteUpdateAsync(
+           setters => setters.SetProperty(o => o.Status, OrderStatus.CANCELLED)
+       );
+
+        if (0 == updatedRows)
+        {
+            throw NotFoundException.ForClass(nameof(Order));
+        }
+    }
 }

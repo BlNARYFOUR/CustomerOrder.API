@@ -37,8 +37,13 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
 
     public async Task IncreaseNumberOfOrdersAsync(int id)
     {
-        await _context.Customers.Where(c => id == c.Id).ExecuteUpdateAsync(
+        var updatedRows = await _context.Customers.Where(c => id == c.Id).ExecuteUpdateAsync(
             setters => setters.SetProperty(c => c.NumberOfOrders, c => c.NumberOfOrders + 1)
         );
+
+        if (0 == updatedRows)
+        {
+            throw NotFoundException.ForClass(nameof(Customer));
+        }
     }
 }
