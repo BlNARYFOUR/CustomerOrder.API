@@ -26,14 +26,6 @@ public class CustomersController(
         )));
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetById(int id)
-    {
-        return Ok(_customerMapper.ToDto(await _requestBus.Send(
-            new CustomerGetByIdQuery(id)
-        )));
-    }
-
     [HttpPost]
     public async Task<ActionResult<StatusGet>> Create(CustomerUpsert dto)
     {
@@ -42,5 +34,11 @@ public class CustomersController(
         }, new StatusGet(StatusCodes.Status201Created));
     }
 
-    // todo
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetById(int id)
+    {
+        return Ok(_customerMapper.ToDto(await _requestBus.Send(
+            new CustomerGetByIdQuery(id)
+        )));
+    }
 }

@@ -17,5 +17,4 @@ public class OrdersController(ISender requestBus) : ControllerBase
 
         return NoContent();
     }
-    // todo
 }

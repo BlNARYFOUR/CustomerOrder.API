@@ -1,5 +1,4 @@
 ﻿using CustomerOrder.API.Application.Dtos;
-using CustomerOrder.API.Application.Mappers;
 using CustomerOrder.API.Application.Mappers.Interfaces;
 using CustomerOrder.API.Domain.Requests.Commands;
 using CustomerOrder.API.Domain.Requests.Queries;
@@ -36,6 +35,4 @@ public class CustomerOrdersController(
             customerId,
         }, new { status = StatusCodes.Status201Created });
     }
-
-    // todo
 }
