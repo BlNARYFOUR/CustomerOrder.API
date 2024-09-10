@@ -20,7 +20,6 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
             new Order(2, "Order 3", 3.99) { Id = 3, CreationDate = new DateTime(2024, 3, 6) }
         );
 
-
         base.OnModelCreating(modelBuilder);
     }
 }

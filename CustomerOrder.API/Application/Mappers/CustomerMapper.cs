@@ -12,7 +12,7 @@ public class CustomerMapper : ICustomerMapper
             dto.FirstName,
             dto.LastName,
             dto.Email,
-            dto.NumberOfOrders
+            0
         );
     }
 

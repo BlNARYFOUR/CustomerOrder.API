@@ -1,6 +1,6 @@
 ﻿using CustomerOrder.API.Application.Dtos;
 using CustomerOrder.API.Application.Mappers.Interfaces;
-using CustomerOrder.API.Domain.Requests;
+using CustomerOrder.API.Domain.Requests.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,13 +20,13 @@ public class OrdersController(
     [HttpGet]
     public async Task<ActionResult<OrderGet>> GetList()
     {
-        return Ok(_orderListMapper.ToDto(await _requestBus.Send(new GetOrderListQuery())));
+        return Ok(_orderListMapper.ToDto(await _requestBus.Send(new OrderGetListQuery())));
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<IEnumerable<OrderGet>>> GetById(int id)
     {
-        return Ok(_orderMapper.ToDto(await _requestBus.Send(new GetOrderByIdQuery(id))));
+        return Ok(_orderMapper.ToDto(await _requestBus.Send(new OrderGetByIdQuery(id))));
     }
 
     // todo
