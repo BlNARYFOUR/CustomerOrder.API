@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CustomerOrder.API.Application.Controllers;
 
-[Route("api/orders")]
+[Route("api/customers/{customerId}/orders")]
 [ApiController]
-public class OrdersController(
+public class CustomerOrdersController(
     ISender requestBus,
     IOrderMapper mapper,
     IOrderListMapper listMapper
@@ -16,6 +16,14 @@ public class OrdersController(
     private readonly ISender _requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));
     private readonly IOrderMapper _orderMapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     private readonly IOrderListMapper _orderListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
+
+    [HttpGet]
+    public async Task<ActionResult<OrderGet>> GetList(int customerId)
+    {
+        return Ok(_orderListMapper.ToDto(await _requestBus.Send(
+            new OrderGetListForCustomerQuery(customerId)
+        )));
+    }
 
     // todo
 }

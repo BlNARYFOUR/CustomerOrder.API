@@ -37,9 +37,9 @@ public class CustomersController(
     [HttpPost]
     public async Task<ActionResult<IEnumerable<CustomerGet>>> Create(CustomerUpsert dto)
     {
-        return CreatedAtAction(nameof(GetById), new {
-            id = await _requestBus.Send(new CustomerCreateCommand(_customerMapper.FromDto(dto)))
-        }, new { status = StatusCodes.Status201Created });
+        return CreatedAtAction(nameof(GetById), new { id = await _requestBus.Send(
+            new CustomerCreateCommand(_customerMapper.FromDto(dto))
+        ) }, new { status = StatusCodes.Status201Created });
     }
 
     // todo

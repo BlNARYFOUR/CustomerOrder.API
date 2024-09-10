@@ -10,9 +10,9 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
 {
     private readonly CustomerOrderContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public async Task<IEnumerable<Order>> GetAllAsync()
+    public async Task<IEnumerable<Order>> GetAllForCustomerAsync(int customerId)
     {
-        return await _context.Orders.OrderBy(o => o.Id).ToListAsync();
+        return await _context.Orders.Where(o => customerId == o.CustomerId).OrderByDescending(o => o.CreationDate).ToListAsync();
     }
 
     public async Task<Order> GetByIdAsync(int id)
