@@ -1,6 +1,5 @@
-﻿using CustomerOrder.API.Domain.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace CustomerOrder.API.Domain.Requests.Commands;
 
-public record CustomerCreateCommand(Customer Entity) : IRequest<int>;
+public record CustomerCreateCommand(string FirstName, string LastName, string Email) : IRequest<int>;

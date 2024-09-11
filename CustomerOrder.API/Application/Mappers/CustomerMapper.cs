@@ -6,16 +6,6 @@ namespace CustomerOrder.API.Application.Mappers;
 
 public class CustomerMapper : ICustomerMapper
 {
-    public Customer FromDto(CustomerUpsert dto)
-    {
-        return new Customer(
-            dto.FirstName,
-            dto.LastName,
-            dto.Email,
-            0
-        );
-    }
-
     public CustomerGet ToDto(Customer entity)
     {
         return new CustomerGet(

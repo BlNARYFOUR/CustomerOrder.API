@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CustomerOrder.API.Domain.Entities;
 
-public class Customer(string firstName, string lastName, string email, int numberOfOrders)
+public class Customer(string firstName, string lastName, string email)
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,7 +18,7 @@ public class Customer(string firstName, string lastName, string email, int numbe
     [MaxLength(50)]
     public string Email { get; set; } = email;
     [Required]
-    public int NumberOfOrders { get; set; } = numberOfOrders;
+    public int NumberOfOrders { get; set; } = 0;
 
     public ICollection<Order> Orders { get; set; } = [];
 }

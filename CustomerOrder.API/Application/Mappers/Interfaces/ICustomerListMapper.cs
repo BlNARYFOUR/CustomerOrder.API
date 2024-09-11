@@ -5,5 +5,5 @@ namespace CustomerOrder.API.Application.Mappers.Interfaces;
 
 public interface ICustomerListMapper
 {
-    public IEnumerable<CustomerGet> ToDto(IEnumerable<Customer> entities);
+    public IEnumerable<Dtos.CustomerGet> ToDto(IEnumerable<Domain.Entities.Customer> entities);
 }

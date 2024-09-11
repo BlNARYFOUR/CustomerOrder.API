@@ -30,7 +30,11 @@ public class CustomersController(
     public async Task<ActionResult<StatusGet>> Create(CustomerUpsert dto)
     {
         return CreatedAtAction(nameof(GetById), new {
-            id = await _requestBus.Send(new CustomerCreateCommand(_customerMapper.FromDto(dto)))
+            id = await _requestBus.Send(new CustomerCreateCommand(
+                dto.FirstName,
+                dto.LastName,
+                dto.Email
+            ))
         }, new StatusGet(StatusCodes.Status201Created));
     }
 

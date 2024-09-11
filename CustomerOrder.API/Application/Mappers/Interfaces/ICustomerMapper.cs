@@ -5,6 +5,5 @@ namespace CustomerOrder.API.Application.Mappers.Interfaces;
 
 public interface ICustomerMapper
 {
-    public Customer FromDto(CustomerUpsert dto);
-    public CustomerGet ToDto(Customer entity);
+    public Dtos.CustomerGet ToDto(Domain.Entities.Customer entity);
 }

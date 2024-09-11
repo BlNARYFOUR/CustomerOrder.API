@@ -46,4 +46,9 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
             throw NotFoundException.ForClass(nameof(Customer));
         }
     }
+
+    public async Task<Customer?> FindByEmailAsync(string email)
+    {
+        return await _context.Customers.Where(c => email == c.Email).FirstOrDefaultAsync();
+    }
 }

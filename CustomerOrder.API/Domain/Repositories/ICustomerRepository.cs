@@ -9,4 +9,5 @@ public interface ICustomerRepository
     public Task<Customer> GetByIdAsync(int id);
     public Task<Customer> CreateAsync(Customer customer);
     public Task IncreaseNumberOfOrdersAsync(int id);
+    public Task<Customer?> FindByEmailAsync(string email);
 }

@@ -8,8 +8,8 @@ namespace CustomerOrder.API.Infrastructure.Data.Builders
         public static void Build(ModelBuilder builder)
         {
             builder.Entity<Customer>().HasData(
-                new Customer("John", "Doe", "john.doe@test.test", 2) { Id = 1 },
-                new Customer("Jane", "Doe", "jane.doe@test.test", 1) { Id = 2 }
+                new Customer("John", "Doe", "john.doe@test.test") { Id = 1, NumberOfOrders = 2 },
+                new Customer("Jane", "Doe", "jane.doe@test.test") { Id = 2, NumberOfOrders = 1 }
             );
 
             builder.Entity<Order>().HasData(
