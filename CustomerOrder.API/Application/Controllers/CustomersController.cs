@@ -19,7 +19,7 @@ public class CustomersController(
     private readonly ICustomerListMapper _customerListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
 
     [HttpGet]
-    public async Task<ActionResult<CustomerGet>> GetList()
+    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetList()
     {
         return Ok(_customerListMapper.ToDto(await _requestBus.Send(
             new CustomerGetListQuery()
@@ -35,7 +35,7 @@ public class CustomersController(
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetById(int id)
+    public async Task<ActionResult<CustomerGet>> GetById(int id)
     {
         return Ok(_customerMapper.ToDto(await _requestBus.Send(
             new CustomerGetByIdQuery(id)

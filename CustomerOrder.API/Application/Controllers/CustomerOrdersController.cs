@@ -19,7 +19,7 @@ public class CustomerOrdersController(
     private readonly IOrderListMapper _orderListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
 
     [HttpGet]
-    public async Task<ActionResult<OrderGet>> GetList(int customerId)
+    public async Task<ActionResult<IEnumerable<OrderGet>>> GetList(int customerId)
     {
         return Ok(_orderListMapper.ToDto(await _requestBus.Send(
             new OrderGetListForCustomerQuery(customerId)
@@ -27,12 +27,20 @@ public class CustomerOrdersController(
     }
 
     [HttpPost]
-    public async Task<ActionResult<IEnumerable<CustomerGet>>> Create(int customerId, OrderUpsert dto)
+    public async Task<ActionResult<StatusGet>> Create(int customerId, OrderUpsert dto)
     {
         await _requestBus.Send(new OrderCreateCommand(_orderMapper.FromDto(customerId, dto)));
 
         return CreatedAtAction(nameof(GetList), new {
             customerId,
-        }, new { status = StatusCodes.Status201Created });
+        }, new StatusGet(StatusCodes.Status201Created));
+    }
+
+    [HttpGet("cancelled")]
+    public async Task<ActionResult<IEnumerable<OrderGet>>> GetCancelledList(int customerId)
+    {
+        return Ok(_orderListMapper.ToDto(await _requestBus.Send(
+            new OrderGetCancelledListForCustomerQuery(customerId)
+        )));
     }
 }

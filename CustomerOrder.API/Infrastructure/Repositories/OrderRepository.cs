@@ -12,7 +12,18 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAllForCustomerAsync(int customerId)
     {
-        return await _context.Orders.Where(o => customerId == o.CustomerId).OrderByDescending(o => o.CreationDate).ToListAsync();
+        return await _context.Orders
+            .Where(o => customerId == o.CustomerId)
+            .OrderByDescending(o => o.CreationDate)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Order>> GetAllCancelledForCustomerAsync(int customerId)
+    {
+        return await _context.Orders
+            .Where(o => customerId == o.CustomerId && OrderStatus.CANCELLED == o.Status)
+            .OrderByDescending(o => o.CreationDate)
+            .ToListAsync();
     }
 
     public async Task<Order> CreateAsync(Order order)
