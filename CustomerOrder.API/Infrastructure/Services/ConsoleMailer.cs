@@ -1,24 +1,25 @@
-﻿using CustomerOrder.API.Domain.Services;
+﻿using CustomerOrder.API.Domain.Entities;
+using CustomerOrder.API.Domain.Services;
 
 namespace CustomerOrder.API.Infrastructure.Services;
 
 public class ConsoleMailer : IMailer
 {
-    private readonly string _mailFrom = "noreply@test.test";
-
-    public void Send(string mailTo, string subject, string message)
+    public string Send(Email email)
     {
         var lines = BuildLines(
-            $"From: {_mailFrom}",
-            $"To: {mailTo}",
-            $"Subject: {subject}",
+            $"From: {email.From}",
+            $"To: {email.To}",
+            $"Subject: {email.Subject}",
             $"",
-            message
+            email.Message
         );
 
         Console.WriteLine("");
-        lines.ForEach(line => Console.WriteLine(line));
+        lines.ForEach(Console.WriteLine);
         Console.WriteLine("");
+
+        return Guid.NewGuid().ToString();
     }
 
     private static List<string> BuildLines(params string[] lines)

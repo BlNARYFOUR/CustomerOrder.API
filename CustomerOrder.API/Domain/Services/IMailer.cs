@@ -1,6 +1,8 @@
-﻿namespace CustomerOrder.API.Domain.Services;
+﻿using CustomerOrder.API.Domain.Entities;
+
+namespace CustomerOrder.API.Domain.Services;
 
 public interface IMailer
 {
-    public void Send(string mailTo, string subject, string message);
+    public string Send(Email email);
 }

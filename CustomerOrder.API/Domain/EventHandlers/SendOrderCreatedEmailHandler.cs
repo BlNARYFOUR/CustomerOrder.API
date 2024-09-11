@@ -1,4 +1,5 @@
-﻿using CustomerOrder.API.Domain.Events;
+﻿using CustomerOrder.API.Domain.Entities;
+using CustomerOrder.API.Domain.Events;
 using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Domain.Services;
 using MediatR;
@@ -14,10 +15,17 @@ public class SendOrderCreatedEmail(IMailer mailer, ICustomerRepository repositor
     {
         var customer = await _repository.GetByIdAsync(notification.CustomerId);
 
-        _mailer.Send(
+        var email = new Email(
+            "noreply@test.test",
             customer.Email,
             "Order Confirmation",
             $"Hi {customer.FirstName},\n\nYour order #{notification.Id} is on its way!\n\nKind regards,\n\nThe CustomerOrder Team"
         );
+
+        var token = _mailer.Send(email);
+
+        email.Token = token;
+
+        // save email to DB & provide a retry webhook
     }
 }
