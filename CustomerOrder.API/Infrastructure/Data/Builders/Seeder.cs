@@ -18,10 +18,9 @@ namespace CustomerOrder.API.Infrastructure.Data.Builders
                 new Order(2, "Order 3", 3.99) { Id = 3, CreationDate = new DateTime(2024, 3, 6) }
             );
 
-            // todo
-            //builder.Entity<Email>().HasData(
-            //    new Email("noreply@test.test", "john.doe@test.test", "Test Email", "Hi User\n\nThis is a test email!", "test-email-token")
-            //);
+            builder.Entity<Email>().HasData(
+                new Email("noreply@test.test", "john.doe@test.test", "Test Email", "Hi User\n\nThis is a test email!", "test-email-token") { Id = 1 }
+            );
         }
     }
 }

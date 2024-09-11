@@ -7,9 +7,9 @@ namespace CustomerOrder.API.Infrastructure.Data.Builders
     {
         public static void Build(ModelBuilder builder)
         {
-            //builder.Entity<Customer>(entity => {
-            //    entity.HasIndex(e => e.Email).IsUnique();
-            //});
+            builder.Entity<Customer>(entity => {
+                entity.HasIndex(e => e.Email).IsUnique();
+            });
             builder.Entity<Email>(entity => {
                 entity.HasIndex(e => e.Token).IsUnique();
             });
