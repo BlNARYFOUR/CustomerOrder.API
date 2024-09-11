@@ -5,6 +5,8 @@ using CustomerOrder.API.Infrastructure.Repositories;
 using CustomerOrder.API.Application.Filters;
 using CustomerOrder.API.Application.Mappers;
 using CustomerOrder.API.Application.Mappers.Interfaces;
+using CustomerOrder.API.Domain.Services;
+using CustomerOrder.API.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +30,8 @@ builder.Services.AddTransient<ICustomerMapper, CustomerMapper>();
 builder.Services.AddTransient<ICustomerListMapper, CustomerListMapper>();
 builder.Services.AddTransient<IOrderMapper, OrderMapper>();
 builder.Services.AddTransient<IOrderListMapper, OrderListMapper>();
+
+builder.Services.AddTransient<IMailer, ConsoleMailer>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
