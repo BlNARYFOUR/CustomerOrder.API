@@ -7,12 +7,15 @@ public class OrderGetListForCustomerQueryValidator : AbstractValidator<OrderGetL
 {
     public OrderGetListForCustomerQueryValidator()
     {
-        RuleFor(q => q.From).Must(ValidateDateString).WithMessage("'From' is not a valid date-time.");
-        RuleFor(q => q.To).Must(ValidateDateString).WithMessage("'To' is not a valid date-time.");
+        RuleFor(q => q.From).Must(ValidateDateString).WithMessage("'From' is not a valid UTC date-time.");
+        RuleFor(q => q.To).Must(ValidateDateString).WithMessage("'To' is not a valid UTC date-time.");
     }
 
     private bool ValidateDateString(string? dateString)
     {
-        return null == dateString || DateTime.TryParse(dateString, out _);
+        return null == dateString || (
+            dateString.EndsWith('Z')
+            && DateTime.TryParse(dateString, out var _)
+        );
     }
 }

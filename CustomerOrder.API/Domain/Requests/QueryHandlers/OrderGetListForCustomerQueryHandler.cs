@@ -19,7 +19,7 @@ public class OrderGetListForCustomerQueryHandler(ICustomerRepository customerRep
         if (null != query.From || null != query.To)
         {
             return await _repository.SearchOnCreationDateForCustomersAsync(
-                null == query.From ? null : DateTime.Parse(query.From),
+                null == query.From ? DateTime.MinValue : DateTime.Parse(query.From),
                 null == query.To ? DateTime.UtcNow : DateTime.Parse(query.To),
                 [query.CustomerId]
             );

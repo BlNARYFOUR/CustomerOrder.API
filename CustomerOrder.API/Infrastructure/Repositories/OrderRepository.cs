@@ -26,9 +26,13 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
             .ToListAsync();
     }
 
-    public Task<IEnumerable<Order>> SearchOnCreationDateForCustomersAsync(DateTime? from, DateTime to, List<int> customerIds)
+    public async Task<IEnumerable<Order>> SearchOnCreationDateForCustomersAsync(DateTime from, DateTime to, List<int> customerIds)
     {
-        throw new NotImplementedException();
+        return await _context.Orders.Where(
+            o => customerIds.Contains(o.CustomerId)
+            && from <= o.CreationDate
+            && o.CreationDate <= to
+        ).OrderByDescending(o => o.CreationDate).ToListAsync();
     }
 
     public async Task<Order> CreateAsync(Order order)
