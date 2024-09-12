@@ -6,14 +6,18 @@ using MediatR;
 
 namespace CustomerOrder.API.Domain.EventHandlers;
 
-public class SendOrderCreatedEmail(IMailer mailer, ICustomerRepository repository) : INotificationHandler<OrderCreatedEvent>
-{
+public class SendOrderCreatedEmail(
+    IMailer mailer,
+    ICustomerRepository customerRepository,
+    IEmailRepository emailRepository
+) : INotificationHandler<OrderCreatedEvent> {
     private readonly IMailer _mailer = mailer ?? throw new ArgumentNullException(nameof(mailer));
-    private readonly ICustomerRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    private readonly ICustomerRepository _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
+    private readonly IEmailRepository _emailRepository = emailRepository ?? throw new ArgumentNullException(nameof(emailRepository));
 
     public async Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
     {
-        var customer = await _repository.GetByIdAsync(notification.CustomerId);
+        var customer = await _customerRepository.GetByIdAsync(notification.CustomerId);
 
         var email = new Email(
             "noreply@test.test",
@@ -23,9 +27,7 @@ public class SendOrderCreatedEmail(IMailer mailer, ICustomerRepository repositor
         );
 
         var token = _mailer.Send(email);
-
         email.Token = token;
-
-        // save email to DB & provide a retry webhook
+        await _emailRepository.CreateAsync(email);
     }
 }
