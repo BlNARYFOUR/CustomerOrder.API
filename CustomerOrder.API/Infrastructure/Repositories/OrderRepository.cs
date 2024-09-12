@@ -10,7 +10,7 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
 {
     private readonly CustomerOrderContext _context = context ?? throw new ArgumentNullException(nameof(context));
 
-    public async Task<IEnumerable<Order>> GetAllForCustomerAsync(int customerId)
+    public async Task<IEnumerable<Order>> GetListForCustomerAsync(int customerId)
     {
         return await _context.Orders
             .Where(o => customerId == o.CustomerId)
@@ -24,6 +24,11 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
             .Where(o => customerId == o.CustomerId && OrderStatus.CANCELLED == o.Status)
             .OrderByDescending(o => o.CreationDate)
             .ToListAsync();
+    }
+
+    public Task<IEnumerable<Order>> SearchOnCreationDateForCustomersAsync(DateTime? from, DateTime to, List<int> customerIds)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<Order> CreateAsync(Order order)

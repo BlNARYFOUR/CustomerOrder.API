@@ -162,7 +162,7 @@ namespace CustomerOrder.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreationDate = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreationDate = new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = 1,
                             Description = "Order 1",
                             Price = 1.99,
@@ -171,7 +171,7 @@ namespace CustomerOrder.API.Migrations
                         new
                         {
                             Id = 2,
-                            CreationDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreationDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = 1,
                             Description = "Order 2",
                             Price = 2.9900000000000002,
@@ -180,7 +180,7 @@ namespace CustomerOrder.API.Migrations
                         new
                         {
                             Id = 3,
-                            CreationDate = new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreationDate = new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Utc),
                             CustomerId = 2,
                             Description = "Order 3",
                             Price = 3.9900000000000002,

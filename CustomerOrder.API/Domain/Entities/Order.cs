@@ -16,7 +16,7 @@ public class Order(int customerId, string description, double price)
     public double Price { get; set; } = price;
     [Required]
     [DataType(DataType.Date)]
-    public DateTime CreationDate { get; set; } = DateTime.Now;
+    public DateTime CreationDate { get; set; } = DateTime.UtcNow;
     public int CustomerId { get; set; } = customerId;
     [ForeignKey("CustomerId")]
     public Customer? Customer { get; set; }

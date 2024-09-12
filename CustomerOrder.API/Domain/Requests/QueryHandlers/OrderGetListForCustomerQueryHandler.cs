@@ -16,6 +16,15 @@ public class OrderGetListForCustomerQueryHandler(ICustomerRepository customerRep
     {
         await _customerRepository.GetByIdAsync(query.CustomerId);
 
-        return await _repository.GetAllForCustomerAsync(query.CustomerId);
+        if (null != query.From || null != query.To)
+        {
+            return await _repository.SearchOnCreationDateForCustomersAsync(
+                null == query.From ? null : DateTime.Parse(query.From),
+                null == query.To ? DateTime.UtcNow : DateTime.Parse(query.To),
+                [query.CustomerId]
+            );
+        }
+
+        return await _repository.GetListForCustomerAsync(query.CustomerId);
     }
 }

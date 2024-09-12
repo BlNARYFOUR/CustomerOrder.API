@@ -19,10 +19,12 @@ public class CustomerOrdersController(
     private readonly IOrderListMapper _orderListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OrderGet>>> GetList(int customerId)
+    public async Task<ActionResult<IEnumerable<OrderGet>>> GetList(int customerId, string? from, string? to)
     {
+        // todo: https://localhost:7228/api/customers/2/orders?from=2024-03-06T00:00:00.0405673
+
         return Ok(_orderListMapper.ToDto(await _requestBus.Send(
-            new OrderGetListForCustomerQuery(customerId)
+            new OrderGetListForCustomerQuery(customerId, from, to)
         )));
     }
 

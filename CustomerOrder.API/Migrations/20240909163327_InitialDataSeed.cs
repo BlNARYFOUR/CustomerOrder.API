@@ -27,9 +27,9 @@ namespace CustomerOrder.API.Migrations
                 columns: new[] { "Id", "CreationDate", "CustomerId", "Description", "Price" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Order 1", 1.99 },
-                    { 2, new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "Order 2", 2.9900000000000002 },
-                    { 3, new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Order 3", 3.9900000000000002 }
+                    { 1, new DateTime(2024, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc), 1, "Order 1", 1.99 },
+                    { 2, new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Utc), 1, "Order 2", 2.9900000000000002 },
+                    { 3, new DateTime(2024, 3, 6, 0, 0, 0, 0, DateTimeKind.Utc), 2, "Order 3", 3.9900000000000002 }
                 });
         }
 
