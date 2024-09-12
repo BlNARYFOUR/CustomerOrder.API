@@ -3,4 +3,4 @@ using MediatR;
 
 namespace CustomerOrder.API.Domain.Requests.Queries;
 
-public record CustomerGetListQuery() : IRequest<IEnumerable<Customer>>;
+public record CustomerGetListQuery(string? EmailSearch) : IRequest<IEnumerable<Customer>>;

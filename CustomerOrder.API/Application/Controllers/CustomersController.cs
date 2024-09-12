@@ -19,10 +19,10 @@ public class CustomersController(
     private readonly ICustomerListMapper _customerListMapper = listMapper ?? throw new ArgumentNullException(nameof(listMapper));
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetList()
+    public async Task<ActionResult<IEnumerable<CustomerGet>>> GetList(string? email)
     {
         return Ok(_customerListMapper.ToDto(await _requestBus.Send(
-            new CustomerGetListQuery()
+            new CustomerGetListQuery(email)
         )));
     }
 

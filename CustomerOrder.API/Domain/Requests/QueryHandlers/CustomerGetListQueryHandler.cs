@@ -11,6 +11,12 @@ public class CustomerGetListQueryHandler(ICustomerRepository repository) : IRequ
 
     public async Task<IEnumerable<Customer>> Handle(CustomerGetListQuery query, CancellationToken cancellationToken)
     {
+        if (null != query.EmailSearch && "" != query.EmailSearch)
+        {
+            return await _repository.SearchOnEmailAsync(query.EmailSearch);
+        }
+
+
         return await _repository.GetAllAsync();
     }
 }

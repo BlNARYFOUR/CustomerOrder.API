@@ -4,6 +4,7 @@ using CustomerOrder.API.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CustomerOrder.API.Migrations
 {
     [DbContext(typeof(CustomerOrderContext))]
-    partial class CustomerOrderContextModelSnapshot : ModelSnapshot
+    [Migration("20240912112110_DbAddExplicitCaseInsensiveCollation")]
+    partial class DbAddExplicitCaseInsensiveCollation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

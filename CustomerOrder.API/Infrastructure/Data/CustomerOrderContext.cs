@@ -12,6 +12,8 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
         ConstraintsBuilder.Build(modelBuilder);
         Seeder.Build(modelBuilder);
 

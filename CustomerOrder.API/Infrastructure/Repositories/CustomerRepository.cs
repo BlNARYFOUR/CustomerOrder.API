@@ -15,6 +15,11 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
         return await _context.Customers.OrderBy(c => c.Id).ToListAsync();
     }
 
+    public async Task<IEnumerable<Customer>> SearchOnEmailAsync(string searchString)
+    {
+        return await _context.Customers.Where(c => c.Email.Contains(searchString)).ToListAsync();
+    }
+
     public async Task<Customer> GetByIdAsync(int id)
     {
         var customer = await _context.Customers.FindAsync(id);
