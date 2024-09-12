@@ -23,7 +23,7 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
         base.OnModelCreating(modelBuilder);
     }
 
-    private void EnsureUtcDateTimes(ModelBuilder modelBuilder)
+    private static void EnsureUtcDateTimes(ModelBuilder modelBuilder)
     {
         var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
             v => v.ToUniversalTime(),
