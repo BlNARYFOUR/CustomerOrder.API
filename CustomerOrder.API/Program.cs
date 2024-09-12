@@ -40,6 +40,7 @@ builder.Services.AddTransient<IOrderListMapper, OrderListMapper>();
 builder.Services.AddTransient<IMailer, ConsoleMailer>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 var app = builder.Build();

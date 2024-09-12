@@ -38,7 +38,7 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
     {
         var updatedRows = await _context.Orders.Where(o => id == o.Id).ExecuteUpdateAsync(
            setters => setters.SetProperty(o => o.Status, OrderStatus.CANCELLED)
-       );
+        );
 
         if (0 == updatedRows)
         {
