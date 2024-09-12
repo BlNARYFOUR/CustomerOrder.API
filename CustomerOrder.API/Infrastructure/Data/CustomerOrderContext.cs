@@ -2,6 +2,7 @@
 using CustomerOrder.API.Domain.Entities;
 using CustomerOrder.API.Infrastructure.Data.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Reflection.Emit;
 
 namespace CustomerOrder.API.Infrastructure.Data;
 
@@ -12,6 +13,17 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
     public DbSet<Email> Emails { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
+        EnsureUtcDateTimes(modelBuilder);
+
+        ConstraintsBuilder.Build(modelBuilder);
+        Seeder.Build(modelBuilder);
+
+        base.OnModelCreating(modelBuilder);
+    }
+
+    private void EnsureUtcDateTimes(ModelBuilder modelBuilder)
     {
         var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
             v => v.ToUniversalTime(),
@@ -41,12 +53,5 @@ public class CustomerOrderContext(DbContextOptions<CustomerOrderContext> options
                 }
             }
         }
-
-        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
-        ConstraintsBuilder.Build(modelBuilder);
-        Seeder.Build(modelBuilder);
-
-        base.OnModelCreating(modelBuilder);
     }
 }
