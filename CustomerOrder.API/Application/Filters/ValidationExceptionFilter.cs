@@ -20,7 +20,7 @@ public class ValidationExceptionFilter : IActionFilter, IOrderedFilter
                 Status = StatusCodes.Status400BadRequest,
                 Type = "ValidationFailure",
                 Title = "Validation error",
-                Detail = "One or more validation errors has occurred"
+                Detail = "One or more validation errors occurred."
             };
 
             if (exception.Errors is not null)
