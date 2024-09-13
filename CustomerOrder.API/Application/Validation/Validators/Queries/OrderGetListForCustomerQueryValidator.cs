@@ -1,12 +1,13 @@
 ﻿using CustomerOrder.API.Domain.Requests.Queries;
 using FluentValidation;
 
-namespace CustomerOrder.API.Application.Validation.Validators;
+namespace CustomerOrder.API.Application.Validation.Validators.Queries;
 
 public class OrderGetListForCustomerQueryValidator : AbstractValidator<OrderGetListForCustomerQuery>
 {
     public OrderGetListForCustomerQueryValidator()
     {
+        RuleFor(q => q.CustomerId).NotEmpty();
         RuleFor(q => q.From).Must(ValidateDateString).WithMessage("'From' is not a valid UTC date-time.");
         RuleFor(q => q.To).Must(ValidateDateString).WithMessage("'To' is not a valid UTC date-time.");
     }

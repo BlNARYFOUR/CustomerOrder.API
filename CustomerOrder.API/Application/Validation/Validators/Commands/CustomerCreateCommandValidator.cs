@@ -1,7 +1,7 @@
 ﻿using CustomerOrder.API.Domain.Requests.Commands;
 using FluentValidation;
 
-namespace CustomerOrder.API.Application.Validation.Validators;
+namespace CustomerOrder.API.Application.Validation.Validators.Commands;
 
 public class CustomerCreateCommandValidator : AbstractValidator<CustomerCreateCommand>
 {
