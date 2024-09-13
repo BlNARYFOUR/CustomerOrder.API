@@ -1,4 +1,5 @@
-﻿using CustomerOrder.API.Domain.Events;
+﻿using CustomerOrder.API.Domain.Entities;
+using CustomerOrder.API.Domain.Events;
 using CustomerOrder.API.Domain.Exceptions;
 using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Domain.Requests.Commands;
@@ -15,11 +16,15 @@ public class OrderCreateCommandHandler(ICustomerRepository customerRepository, I
     /// exception <exception cref="NotFoundException" />
     public async Task<int> Handle(OrderCreateCommand command, CancellationToken cancellationToken)
     {
-        await _customerRepository.GetByIdAsync(command.Entity.CustomerId);
+        await _customerRepository.GetByIdAsync(command.CustomerId);
 
-        var id = (await _repository.CreateAsync(command.Entity)).Id;
+        var id = (await _repository.CreateAsync(new Order(
+            command.CustomerId,
+            command.Description,
+            command.Price
+        ))).Id;
 
-        await _eventBus.Publish(new OrderCreatedEvent(id, command.Entity.CustomerId), cancellationToken);
+        await _eventBus.Publish(new OrderCreatedEvent(id, command.CustomerId), cancellationToken);
 
         return id;
     }

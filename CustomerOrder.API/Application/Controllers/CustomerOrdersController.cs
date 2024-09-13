@@ -29,7 +29,11 @@ public class CustomerOrdersController(
     [HttpPost]
     public async Task<ActionResult<StatusGet>> Create(int customerId, OrderUpsert dto)
     {
-        await _requestBus.Send(new OrderCreateCommand(_orderMapper.FromDto(customerId, dto)));
+        await _requestBus.Send(new OrderCreateCommand(
+            customerId,
+            dto.Description,
+            dto.Price
+        ));
 
         return CreatedAtAction(nameof(GetList), new {
             customerId,
