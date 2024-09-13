@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CustomerOrder.API.Application.Validation.Validators.Queries;
 
-public class CustomerGetListQueryValidator : AbstractValidator<CustomerGetListQuery>
+public class CustomerSearchListQueryValidator : AbstractValidator<CustomerSearchListQuery>
 {
-    public CustomerGetListQueryValidator()
+    public CustomerSearchListQueryValidator()
     {
         RuleFor(q => q.EmailSearch).Must(ValidateSearchString).WithMessage("'Email' cannot be an empty string.");
     }

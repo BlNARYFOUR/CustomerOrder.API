@@ -22,7 +22,7 @@ public class CustomersController(
     public async Task<ActionResult<IEnumerable<CustomerGet>>> GetList(string? email)
     {
         return Ok(_customerListMapper.ToDto(await _requestBus.Send(
-            new CustomerGetListQuery(email)
+            new CustomerSearchListQuery(email)
         )));
     }
 

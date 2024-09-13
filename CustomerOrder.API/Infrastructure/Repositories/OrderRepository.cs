@@ -29,7 +29,7 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
     public async Task<IEnumerable<Order>> SearchOnCreationDateForCustomersAsync(DateTime from, DateTime to, List<int> customerIds)
     {
         return await _context.Orders.Where(
-            o => customerIds.Contains(o.CustomerId)
+            o => (0 == customerIds.Count || customerIds.Contains(o.CustomerId))
             && from <= o.CreationDate
             && o.CreationDate <= to
         ).OrderByDescending(o => o.CreationDate).ToListAsync();

@@ -13,7 +13,7 @@ public class CustomerCreateCommandHandler(ICustomerRepository repository) : IReq
 
     public async Task<int> Handle(CustomerCreateCommand command, CancellationToken cancellationToken)
     {
-        var customer = _repository.FindByEmailAsync(command.Email);
+        var customer = await _repository.FindByEmailAsync(command.Email);
 
         if (null != customer)
         {

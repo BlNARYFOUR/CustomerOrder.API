@@ -3,11 +3,11 @@ using FluentValidation;
 
 namespace CustomerOrder.API.Application.Validation.Validators.Queries;
 
-public class OrderGetListForCustomerQueryValidator : AbstractValidator<OrderGetListForCustomerQuery>
+public class OrderSearchListQueryValidator : AbstractValidator<OrderSearchListQuery>
 {
-    public OrderGetListForCustomerQueryValidator()
+    public OrderSearchListQueryValidator()
     {
-        RuleFor(q => q.CustomerId).NotEmpty();
+        RuleFor(q => q.CustomerIds).ForEach(c => c.NotEmpty().WithMessage("Values in 'CustomerIds' must not be empty."));
         RuleFor(q => q.From).Must(ValidateDateString).WithMessage("'From' is not a valid UTC date-time.");
         RuleFor(q => q.To).Must(ValidateDateString).WithMessage("'To' is not a valid UTC date-time.");
     }

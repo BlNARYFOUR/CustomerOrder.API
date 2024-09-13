@@ -22,7 +22,7 @@ public class CustomerOrdersController(
     public async Task<ActionResult<IEnumerable<OrderGet>>> GetList(int customerId, string? from, string? to)
     {
         return Ok(_orderListMapper.ToDto(await _requestBus.Send(
-            new OrderGetListForCustomerQuery(customerId, from, to)
+            new OrderSearchListQuery([customerId], from, to)
         )));
     }
 
