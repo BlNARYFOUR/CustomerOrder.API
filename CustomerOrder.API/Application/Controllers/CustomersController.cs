@@ -27,6 +27,7 @@ public class CustomersController(
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<StatusGet>> Create(CustomerUpsert dto)
     {
         return CreatedAtAction(nameof(GetById), new {
@@ -44,5 +45,19 @@ public class CustomersController(
         return Ok(_customerMapper.ToDto(await _requestBus.Send(
             new CustomerGetByIdQuery(id)
         )));
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<NoContentResult> Update(int id, CustomerUpsert dto)
+    {
+        await _requestBus.Send(new CustomerUpdateCommand(
+            id,
+            dto.FirstName,
+            dto.LastName,
+            dto.Email
+        ));
+
+        return NoContent();
     }
 }

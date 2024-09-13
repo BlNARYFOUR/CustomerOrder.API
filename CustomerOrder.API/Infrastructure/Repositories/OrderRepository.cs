@@ -35,6 +35,18 @@ public class OrderRepository(CustomerOrderContext context) : IOrderRepository
         ).OrderByDescending(o => o.CreationDate).ToListAsync();
     }
 
+    public async Task<Order> GetByIdAsync(int id)
+    {
+        var order = await _context.Orders.FindAsync(id);
+
+        if (null == order)
+        {
+            throw NotFoundException.ForClass(nameof(Order));
+        }
+
+        return order;
+    }
+
     public async Task<Order> CreateAsync(Order order)
     {
         var createdOrder = _context.Orders.Add(order).Entity;

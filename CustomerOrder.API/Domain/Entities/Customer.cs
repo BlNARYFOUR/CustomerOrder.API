@@ -19,6 +19,5 @@ public class Customer(string firstName, string lastName, string email)
     public string Email { get; set; } = email;
     [Required]
     public int NumberOfOrders { get; set; } = 0;
-
     public ICollection<Order> Orders { get; set; } = [];
 }

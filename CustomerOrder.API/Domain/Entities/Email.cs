@@ -3,13 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CustomerOrder.API.Domain.Entities;
 
-public class Email(string from, string to, string subject, string message, string token = "")
+public class Email(string from, string to, string subject, string message)
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     [MaxLength(50)]
-    public string Token { get; set; } = token;
+    public string Token { get; set; } = "";
     [Required]
     [MaxLength(50)]
     public string From { get; set; } = from;

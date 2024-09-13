@@ -19,7 +19,7 @@ namespace CustomerOrder.API.Infrastructure.Data.Builders
             );
 
             builder.Entity<Email>().HasData(
-                new Email("noreply@test.test", "john.doe@test.test", "Test Email", "Hi User\n\nThis is a test email!", "test-email-token") { Id = 1 }
+                new Email("noreply@test.test", "john.doe@test.test", "Test Email", "Hi User\n\nThis is a test email!") { Id = 1, Token = "test-email-token" }
             );
         }
     }

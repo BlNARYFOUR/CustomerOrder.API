@@ -7,6 +7,7 @@ namespace CustomerOrder.API.Application.Controllers;
 
 [Route("api/webhooks")]
 [ApiController]
+[ProducesResponseType(StatusCodes.Status204NoContent)]
 public class WebhooksController(ISender requestBus) : ControllerBase
 {
     private readonly ISender _requestBus = requestBus ?? throw new ArgumentNullException(nameof(requestBus));

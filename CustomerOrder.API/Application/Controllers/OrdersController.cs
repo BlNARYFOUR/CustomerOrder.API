@@ -23,7 +23,8 @@ public class OrdersController(ISender requestBus, IOrderListMapper listMapper) :
     }
 
     [HttpPost("{id}/cancel")]
-    public async Task<ActionResult> Cancel(int id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult<NoContentResult>> Cancel(int id)
     {
         await _requestBus.Send(new OrderCancelCommand(id));
 

@@ -27,6 +27,7 @@ public class CustomerOrdersController(
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<ActionResult<StatusGet>> Create(int customerId, OrderUpsert dto)
     {
         await _requestBus.Send(new OrderCreateCommand(
