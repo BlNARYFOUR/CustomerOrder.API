@@ -26,25 +26,25 @@ public class EmailTest
     [Fact]
     public void ItHasAFromTest()
     {
-        Assert.Same("from", _entity.From);
+        Assert.Equal("from", _entity.From);
     }
 
     [Fact]
     public void ItHasAToTest()
     {
-        Assert.Same("to", _entity.To);
+        Assert.Equal("to", _entity.To);
     }
 
     [Fact]
     public void ItHasASubjectTest()
     {
-        Assert.Same("subject", _entity.Subject);
+        Assert.Equal("subject", _entity.Subject);
     }
 
     [Fact]
     public void ItHasAMessageTest()
     {
-        Assert.Same("message", _entity.Message);
+        Assert.Equal("message", _entity.Message);
     }
 
     [Fact]
@@ -58,34 +58,34 @@ public class EmailTest
     public void ItCanSetATokenTest()
     {
         _entity.Token = "token_2";
-        Assert.Same("token_2", _entity.Token);
+        Assert.Equal("token_2", _entity.Token);
     }
 
     [Fact]
     public void ItCanSetAFromTest()
     {
         _entity.From = "from_2";
-        Assert.Same("from_2", _entity.From);
+        Assert.Equal("from_2", _entity.From);
     }
 
     [Fact]
     public void ItCanSetAToTest()
     {
         _entity.To = "to_2";
-        Assert.Same("to_2", _entity.To);
+        Assert.Equal("to_2", _entity.To);
     }
 
     [Fact]
     public void ItCanSetASubjectTest()
     {
         _entity.Subject = "subject_2";
-        Assert.Same("subject_2", _entity.Subject);
+        Assert.Equal("subject_2", _entity.Subject);
     }
 
     [Fact]
     public void ItCanSetAMessageTest()
     {
         _entity.Message = "message_2";
-        Assert.Same("message_2", _entity.Message);
+        Assert.Equal("message_2", _entity.Message);
     }
 }

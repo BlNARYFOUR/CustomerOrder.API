@@ -45,9 +45,10 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
     public async Task ItPropegatesNotFoundExceptionTest()
     {
         var expectedEvent = new OrderCreatedEvent(1234, 4321);
+        var expectedException = NotFoundException.ForClass("TestClass");
 
         _repositoryMock.Setup(r => r.IncreaseNumberOfOrdersAsync(expectedEvent.CustomerId))
-            .Throws(new NotFoundException("Test message"));
+            .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
             await _eventHandler.Handle(expectedEvent, CancellationToken.None);
@@ -55,6 +56,6 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
 
         _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()), Times.Once);
 
-        Assert.Same("Test message", exception.Message);
+        Assert.Equal(expectedException, exception);
     }
 }

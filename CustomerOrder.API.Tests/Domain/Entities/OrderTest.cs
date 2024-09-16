@@ -20,7 +20,7 @@ public class OrderTest
     [Fact]
     public void ItHasADescriptionTest()
     {
-        Assert.Same("description", _entity.Description);
+        Assert.Equal("description", _entity.Description);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class OrderTest
     public void ItCanSetADescriptionTest()
     {
         _entity.Description = "description_2";
-        Assert.Same("description_2", _entity.Description);
+        Assert.Equal("description_2", _entity.Description);
     }
 
     [Fact]

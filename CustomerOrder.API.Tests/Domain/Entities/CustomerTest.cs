@@ -20,19 +20,19 @@ public class CustomerTest
     [Fact]
     public void ItHasAFirstNameTest()
     {
-        Assert.Same("first_name", _entity.FirstName);
+        Assert.Equal("first_name", _entity.FirstName);
     }
 
     [Fact]
     public void ItHasALastNameTest()
     {
-        Assert.Same("last_name", _entity.LastName);
+        Assert.Equal("last_name", _entity.LastName);
     }
 
     [Fact]
     public void ItHasAnEmailTest()
     {
-        Assert.Same("email", _entity.Email);
+        Assert.Equal("email", _entity.Email);
     }
 
     [Fact]
@@ -58,21 +58,21 @@ public class CustomerTest
     public void ItCanSetAFirstNameTest()
     {
         _entity.FirstName = "first_name_2";
-        Assert.Same("first_name_2", _entity.FirstName);
+        Assert.Equal("first_name_2", _entity.FirstName);
     }
 
     [Fact]
     public void ItCanSetALastNameTest()
     {
         _entity.LastName = "last_name_2";
-        Assert.Same("last_name_2", _entity.LastName);
+        Assert.Equal("last_name_2", _entity.LastName);
     }
 
     [Fact]
     public void ItCanSetAnEmailTest()
     {
         _entity.Email = "email_2";
-        Assert.Same("email_2", _entity.Email);
+        Assert.Equal("email_2", _entity.Email);
     }
 
     [Fact]

@@ -62,9 +62,10 @@ public class SendOrderCreatedEmailHandlerTest
     public async Task ItPropegatesNotFoundExceptionTest()
     {
         var expectedEvent = new OrderCreatedEvent(1234, 4321);
+        var expectedException = NotFoundException.ForClass("TestClass");
 
         _customerRepositoryMock.Setup(r => r.GetByIdAsync(expectedEvent.CustomerId))
-            .Throws(new NotFoundException("Test message"));
+            .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
             await _eventHandler.Handle(expectedEvent, CancellationToken.None);
@@ -74,6 +75,6 @@ public class SendOrderCreatedEmailHandlerTest
         _mailerMock.Verify(m => m.Send(It.IsAny<Email>()), Times.Never);
         _emailRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Email>()), Times.Never);
 
-        Assert.Same("Test message", exception.Message);
+        Assert.Equal(expectedException, exception);
     }
 }
