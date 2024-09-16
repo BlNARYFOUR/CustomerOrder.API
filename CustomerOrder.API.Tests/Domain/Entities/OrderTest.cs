@@ -4,102 +4,102 @@ namespace CustomerOrder.API.Tests.Domain.Entities;
 
 public class OrderTest
 {
-    private readonly Order _order;
+    private readonly Order _entity;
 
     public OrderTest()
     {
-        _order = new Order(2, "description", 1.99);
+        _entity = new Order(2, "description", 1.99);
     }
 
     [Fact]
     public void ItHasAnIdTest()
     {
-        Assert.Equal(0, _order.Id);
+        Assert.Equal(0, _entity.Id);
     }
 
     [Fact]
     public void ItHasADescriptionTest()
     {
-        Assert.Same("description", _order.Description);
+        Assert.Same("description", _entity.Description);
     }
 
     [Fact]
     public void ItHasAPriceTest()
     {
-        Assert.Equal(1.99, _order.Price);
+        Assert.Equal(1.99, _entity.Price);
     }
 
     [Fact]
     public void ItHasACreationDateTest()
     {
-        Assert.IsType<DateTime>(_order.CreationDate);
+        Assert.IsType<DateTime>(_entity.CreationDate);
     }
 
     [Fact]
     public void ItHasACustomerIdTest()
     {
-        Assert.Equal(2, _order.CustomerId);
+        Assert.Equal(2, _entity.CustomerId);
     }
 
     [Fact]
     public void ItHasACustomerTest()
     {
-        Assert.Null(_order.Customer);
+        Assert.Null(_entity.Customer);
     }
 
     [Fact]
     public void ItHasAStatusTest()
     {
-        Assert.Equal(OrderStatus.CREATED, _order.Status);
+        Assert.Equal(OrderStatus.CREATED, _entity.Status);
     }
 
     [Fact]
     public void ItCanSetAnIdTest()
     {
-        _order.Id = 2;
-        Assert.Equal(2, _order.Id);
+        _entity.Id = 2;
+        Assert.Equal(2, _entity.Id);
     }
 
     [Fact]
     public void ItCanSetADescriptionTest()
     {
-        _order.Description = "description_2";
-        Assert.Same("description_2", _order.Description);
+        _entity.Description = "description_2";
+        Assert.Same("description_2", _entity.Description);
     }
 
     [Fact]
     public void ItCanSetAPriceTest()
     {
-        _order.Price = 2.99;
-        Assert.Equal(2.99, _order.Price);
+        _entity.Price = 2.99;
+        Assert.Equal(2.99, _entity.Price);
     }
 
     [Fact]
     public void ItCanSetACreationDateTest()
     {
-        _order.CreationDate = new DateTime(1999, 1, 1);
-        Assert.Equal(new DateTime(1999, 1, 1), _order.CreationDate);
+        _entity.CreationDate = new DateTime(1999, 1, 1);
+        Assert.Equal(new DateTime(1999, 1, 1), _entity.CreationDate);
     }
 
     [Fact]
     public void ItCanSetACustomerIdTest()
     {
-        _order.CustomerId = 3;
-        Assert.Equal(3, _order.CustomerId);
+        _entity.CustomerId = 3;
+        Assert.Equal(3, _entity.CustomerId);
     }
 
     [Fact]
     public void ItCanSetACustomerTest()
     {
         var expected = new Customer("", "", "");
-        _order.Customer = expected;
-        Assert.Equal(expected, _order.Customer);
+        _entity.Customer = expected;
+        Assert.Equal(expected, _entity.Customer);
     }
 
     [Fact]
     public void ItCanSetAStatusTest()
     {
-        _order.Status = OrderStatus.CANCELLED;
-        Assert.Equal(OrderStatus.CANCELLED, _order.Status);
+        _entity.Status = OrderStatus.CANCELLED;
+        Assert.Equal(OrderStatus.CANCELLED, _entity.Status);
     }
 }

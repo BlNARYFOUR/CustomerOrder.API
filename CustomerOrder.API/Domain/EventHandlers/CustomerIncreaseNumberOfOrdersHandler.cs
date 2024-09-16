@@ -8,6 +8,7 @@ public class CustomerIncreaseNumberOfOrdersHandler(ICustomerRepository repositor
 {
     private readonly ICustomerRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
 
+    /// <exception cref="Exceptions.NotFoundException" />
     public async Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
     {
         await _repository.IncreaseNumberOfOrdersAsync(notification.CustomerId);

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace CustomerOrder.API.Domain.EventHandlers;
 
-public class SendOrderCreatedEmail(
+public class SendOrderCreatedEmailHandler(
     IMailer mailer,
     ICustomerRepository customerRepository,
     IEmailRepository emailRepository
@@ -15,6 +15,7 @@ public class SendOrderCreatedEmail(
     private readonly ICustomerRepository _customerRepository = customerRepository ?? throw new ArgumentNullException(nameof(customerRepository));
     private readonly IEmailRepository _emailRepository = emailRepository ?? throw new ArgumentNullException(nameof(emailRepository));
 
+    /// <exception cref="Exceptions.NotFoundException" />
     public async Task Handle(OrderCreatedEvent notification, CancellationToken cancellationToken)
     {
         var customer = await _customerRepository.GetByIdAsync(notification.CustomerId);

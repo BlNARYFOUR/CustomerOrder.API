@@ -4,17 +4,17 @@ namespace CustomerOrder.API.Tests.Domain.Entities;
 
 public class OrderStatusTest
 {
-    private readonly OrderStatus _orderStatus;
+    private readonly OrderStatus _enum;
 
     public OrderStatusTest()
     {
-        _orderStatus = new OrderStatus();
+        _enum = new OrderStatus();
     }
 
     [Fact]
     public void ItIsAValidEnumTest()
     {
-        Assert.IsAssignableFrom<Enum>(_orderStatus);
+        Assert.IsAssignableFrom<Enum>(_enum);
     }
 
     [Theory]
