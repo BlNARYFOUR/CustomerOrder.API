@@ -1,5 +1,4 @@
 using CustomerOrder.API.Domain.Entities;
-using CustomerOrder.API.Domain.Events;
 using CustomerOrder.API.Domain.Exceptions;
 using CustomerOrder.API.Domain.Models;
 using CustomerOrder.API.Domain.Repositories;
@@ -58,7 +57,7 @@ public class CustomerCreateCommandHandlerTest
     }
 
     [Fact]
-    public async Task ItThrowsAValidationExceptionOnInvalidEmailTest()
+    public async Task ItThrowsAValidationExceptionOnDuplicateEmailTest()
     {
         var expectedCommand = new CustomerCreateCommand("test_first_name", "test_last_name", "test_email");
         var customerWithId = new Customer(expectedCommand.FirstName, expectedCommand.LastName, expectedCommand.Email) { Id = 1234 };
@@ -74,6 +73,5 @@ public class CustomerCreateCommandHandlerTest
         _repositoryMock.Verify(r => r.CreateAsync(It.IsAny<Customer>()), Times.Never);
 
         Assert.Equal([new ValidationError("Email", "'Email' is already used.")], exception.Errors);
-        Assert.IsType<ValidationException>(exception);
     }
 }

@@ -57,6 +57,5 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
         _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()), Times.Once);
 
         Assert.Equal(expectedException.Message, exception.Message);
-        Assert.IsType<NotFoundException>(exception);
     }
 }

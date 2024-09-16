@@ -76,6 +76,5 @@ public class SendOrderCreatedEmailHandlerTest
         _emailRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Email>()), Times.Never);
 
         Assert.Equal(expectedException.Message, exception.Message);
-        Assert.IsType<NotFoundException>(exception);
     }
 }
