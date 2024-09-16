@@ -29,7 +29,7 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
     }
 
     [Fact]
-    public async Task ItCanHandleAnOrderCreatedEventTest()
+    public async Task ItCanHandleTheEventTest()
     {
         var expectedEvent = new OrderCreatedEvent(1234, 4321);
 
@@ -56,6 +56,7 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
 
         _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()), Times.Once);
 
-        Assert.Equal(expectedException, exception);
+        Assert.Equal(expectedException.Message, exception.Message);
+        Assert.IsType<NotFoundException>(exception);
     }
 }

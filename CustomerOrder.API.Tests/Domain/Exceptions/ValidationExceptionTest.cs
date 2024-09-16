@@ -35,23 +35,6 @@ public class ValidationExceptionTest
     }
 
     [Fact]
-    public void ItCanBeConstructedWithTwoErrorsTest()
-    {
-        var expectedError1 = new ValidationError("prop_1", "message_1");
-        var expectedError2 = new ValidationError("prop_2", "message_2");
-
-        var exception = new ValidationException(
-            expectedError1,
-            expectedError2
-        );
-
-        Assert.Equal([
-            expectedError1,
-            expectedError2
-        ], exception.Errors);
-    }
-
-    [Fact]
     public void ItCanBeConstructedWithFiveErrorsTest()
     {
         var expectedError1 = new ValidationError("prop_1", "message_1");

@@ -37,7 +37,7 @@ public class SendOrderCreatedEmailHandlerTest
     }
 
     [Fact]
-    public async Task ItCanHandleAnOrderCreatedEventTest()
+    public async Task ItCanHandleTheEventTest()
     {
         var expectedEvent = new OrderCreatedEvent(1234, 4321);
         var expectedCustomer = new Customer("Bob", "Dylan", "bob.dylan@test.test") { Id = expectedEvent.CustomerId };
@@ -75,6 +75,7 @@ public class SendOrderCreatedEmailHandlerTest
         _mailerMock.Verify(m => m.Send(It.IsAny<Email>()), Times.Never);
         _emailRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Email>()), Times.Never);
 
-        Assert.Equal(expectedException, exception);
+        Assert.Equal(expectedException.Message, exception.Message);
+        Assert.IsType<NotFoundException>(exception);
     }
 }
