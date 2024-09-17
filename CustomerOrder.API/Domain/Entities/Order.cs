@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CustomerOrder.API.Domain.Entities;
 
-public class Order(int customerId, string description, double price)
+public class Order(int customerId, string description, double price, DateTime CreationDate)
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,7 +16,7 @@ public class Order(int customerId, string description, double price)
     public double Price { get; set; } = price;
     [Required]
     [DataType(DataType.Date)]
-    public DateTime CreationDate { get; set; } = DateTime.UtcNow;
+    public DateTime CreationDate { get; set; } = CreationDate;
     public int CustomerId { get; set; } = customerId;
     [ForeignKey("CustomerId")]
     public Customer? Customer { get; set; }

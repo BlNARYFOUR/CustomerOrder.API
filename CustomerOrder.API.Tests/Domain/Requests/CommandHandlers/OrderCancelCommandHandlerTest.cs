@@ -33,10 +33,10 @@ public class OrderCancelCommandHandlerTest
     public async Task ItCanHandleTheCommandTest()
     {
         var expectedCommand = new OrderCancelCommand(1234);
-        var expectedOrder = new Order(4321, "test_description", 1.23) { Id = expectedCommand.Id };
+        var order = new Order(4321, "test_description", 1.23, new DateTime(1999, 1, 1)) { Id = expectedCommand.Id };
         
         _repositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.Id))
-            .Returns(Task.FromResult(expectedOrder));
+            .Returns(Task.FromResult(order));
         _repositoryMock.Setup(r => r.CancelAsync(expectedCommand.Id))
             .Returns(Task.CompletedTask);
 

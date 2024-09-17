@@ -37,6 +37,7 @@ builder.Services.AddTransient<ICustomerListMapper, CustomerListMapper>();
 builder.Services.AddTransient<IOrderMapper, OrderMapper>();
 builder.Services.AddTransient<IOrderListMapper, OrderListMapper>();
 
+builder.Services.AddTransient<IDateTimeProvider, UtcDateTimeProvider>();
 builder.Services.AddTransient<IMailer, ConsoleMailer>();
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();

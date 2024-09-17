@@ -8,7 +8,7 @@ public class OrderTest
 
     public OrderTest()
     {
-        _entity = new Order(2, "description", 1.99);
+        _entity = new Order(2, "description", 1.99, new DateTime(1999, 1, 1));
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class OrderTest
     [Fact]
     public void ItHasACreationDateTest()
     {
-        Assert.IsType<DateTime>(_entity.CreationDate);
+        Assert.Equal(new DateTime(1999, 1, 1), _entity.CreationDate);
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public class OrderTest
     [Fact]
     public void ItCanSetACreationDateTest()
     {
-        _entity.CreationDate = new DateTime(1999, 1, 1);
-        Assert.Equal(new DateTime(1999, 1, 1), _entity.CreationDate);
+        _entity.CreationDate = new DateTime(2024, 1, 1);
+        Assert.Equal(new DateTime(2024, 1, 1), _entity.CreationDate);
     }
 
     [Fact]

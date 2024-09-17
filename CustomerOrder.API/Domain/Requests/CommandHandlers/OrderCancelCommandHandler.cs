@@ -13,7 +13,6 @@ public class OrderCancelCommandHandler(IOrderRepository repository) : IRequestHa
     public async Task Handle(OrderCancelCommand command, CancellationToken cancellationToken)
     {
         await _repository.GetByIdAsync(command.Id);
-
         await _repository.CancelAsync(command.Id);
     }
 }

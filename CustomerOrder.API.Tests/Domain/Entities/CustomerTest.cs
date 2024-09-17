@@ -85,7 +85,7 @@ public class CustomerTest
     [Fact]
     public void ItCanSetOrdersTest()
     {
-        ICollection<Order> expected = [new Order(1, "description", 1.23)];
+        ICollection<Order> expected = [new Order(1, "description", 1.23, new DateTime(1999, 1, 1))];
         _entity.Orders = expected;
         Assert.Equal(expected, _entity.Orders);
     }
