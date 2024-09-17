@@ -1,4 +1,3 @@
-using CustomerOrder.API.Domain.Exceptions;
 using CustomerOrder.API.Domain.Models;
 
 namespace CustomerOrder.API.Tests.Domain.Models;
@@ -19,7 +18,7 @@ public class ValidationErrorTest
     }
 
     [Fact]
-    public void ItHasAnErrorMessage()
+    public void ItHasAnErrorMessageTest()
     {
         Assert.Equal("test_message", _model.ErrorMessage);
     }
