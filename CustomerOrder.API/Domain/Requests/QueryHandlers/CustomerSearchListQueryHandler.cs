@@ -11,7 +11,7 @@ public class CustomerSearchListQueryHandler(ICustomerRepository repository) : IR
 
     public async Task<IEnumerable<Customer>> Handle(CustomerSearchListQuery query, CancellationToken cancellationToken)
     {
-        if (null != query.EmailSearch && "" != query.EmailSearch)
+        if (null != query.EmailSearch)
         {
             return await _repository.SearchOnEmailAsync(query.EmailSearch);
         }

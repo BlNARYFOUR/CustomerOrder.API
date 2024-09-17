@@ -48,23 +48,6 @@ public class CustomerSearchListQueryHandlerTest
     }
 
     [Fact]
-    public async Task ItCanHandleAnEmptySearchStringTest()
-    {
-        var expectedQuery = new CustomerSearchListQuery("");
-        IEnumerable<Customer> expectedCustomers = [new Customer("test_first_name", "test_last_name", "test_email_search") { Id = 1234 }];
-
-        _repositoryMock.Setup(r => r.GetAllAsync())
-            .Returns(Task.FromResult(expectedCustomers));
-
-        IEnumerable<Customer> result = await _queryHandler.Handle(expectedQuery, CancellationToken.None);
-
-        _repositoryMock.Verify(r => r.GetAllAsync(), Times.Once);
-        _repositoryMock.Verify(r => r.SearchOnEmailAsync(It.IsAny<string>()), Times.Never);
-
-        Assert.Equal(expectedCustomers, result);
-    }
-
-    [Fact]
     public async Task ItCanHandleANullSearchStringTest()
     {
         var expectedQuery = new CustomerSearchListQuery(null);

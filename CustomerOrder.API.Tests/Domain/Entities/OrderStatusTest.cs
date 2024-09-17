@@ -19,14 +19,14 @@ public class OrderStatusTest
 
     [Theory]
     [MemberData(nameof(EnumData))]
-    public void ItHasCorrectValuesTest((int Expected, OrderStatus Enum) data)
+    public void ItHasCorrectValuesTest(int expectedValue, OrderStatus enumObject)
     {
-        Assert.Equal(data.Expected, (int) data.Enum);
+        Assert.Equal(expectedValue, (int) enumObject);
     }
 
     public static IEnumerable<object[]> EnumData()
     {
-        yield return new object[] { (0, OrderStatus.CREATED) };
-        yield return new object[] { (1, OrderStatus.CANCELLED) };
+        yield return new object[] { 0, OrderStatus.CREATED };
+        yield return new object[] { 1, OrderStatus.CANCELLED };
     }
 }
