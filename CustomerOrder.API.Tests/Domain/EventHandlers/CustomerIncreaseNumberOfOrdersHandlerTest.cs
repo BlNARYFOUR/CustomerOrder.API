@@ -38,6 +38,7 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
 
         await _eventHandler.Handle(expectedEvent, CancellationToken.None);
 
+        _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()), Times.Once);
         _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(expectedEvent.CustomerId), Times.Once);
     }
 
@@ -47,7 +48,7 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
         var expectedEvent = new OrderCreatedEvent(1234, 4321);
         var expectedException = NotFoundException.ForClass("TestClass");
 
-        _repositoryMock.Setup(r => r.IncreaseNumberOfOrdersAsync(expectedEvent.CustomerId))
+        _repositoryMock.Setup(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()))
             .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
@@ -55,6 +56,7 @@ public class CustomerIncreaseNumberOfOrdersHandlerTest
         });
 
         _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.IncreaseNumberOfOrdersAsync(expectedEvent.CustomerId), Times.Once);
 
         Assert.Equal(expectedException.Message, exception.Message);
     }

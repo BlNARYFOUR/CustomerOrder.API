@@ -41,30 +41,35 @@ public class EmailResendCommandHandlerTest
         var expectedUpdatedToken = "test_token_updated";
         var expectedEmailUpdated = new Email("test_from", "test_to", "test_subject", "test_message") { Id = 1234, Token = expectedUpdatedToken };
 
-        _repositoryMock.Setup(r => r.GetByTokenAsync(expectedCommand.Token))
+        _repositoryMock.Setup(r => r.GetByTokenAsync(It.IsAny<string>()))
             .Returns(Task.FromResult(expectedEmail));
-        _mailerMock.Setup(m => m.Send(It.Is<Email>(
+        _mailerMock.Setup(m => m.Send(It.IsAny<Email>()))
+            .Returns(expectedUpdatedToken);
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Email>()))
+            .Returns(Task.FromResult(expectedEmailUpdated));
+
+        await _commandHandler.Handle(expectedCommand, CancellationToken.None);
+
+        _repositoryMock.Verify(r => r.GetByTokenAsync(It.IsAny<string>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByTokenAsync(expectedCommand.Token), Times.Once);
+        _mailerMock.Verify(m => m.Send(It.IsAny<Email>()), Times.Once);
+        _mailerMock.Verify(m => m.Send(It.Is<Email>(
             e => expectedEmail.Id == e.Id
                 && expectedEmail.Token == e.Token
                 && expectedEmail.From == e.From
                 && expectedEmail.To == e.To
                 && expectedEmail.Subject == e.Subject
                 && expectedEmail.Message == e.Message
-        ))).Returns(expectedUpdatedToken);
-        _repositoryMock.Setup(r => r.UpdateAsync(It.Is<Email>(
+        )), Times.Once);
+        _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Email>()), Times.Once);
+        _repositoryMock.Verify(r => r.UpdateAsync(It.Is<Email>(
             e => expectedEmail.Id == e.Id
                 && expectedUpdatedToken == e.Token
                 && expectedEmail.From == e.From
                 && expectedEmail.To == e.To
                 && expectedEmail.Subject == e.Subject
                 && expectedEmail.Message == e.Message
-        ))).Returns(Task.FromResult(expectedEmailUpdated));
-
-        await _commandHandler.Handle(expectedCommand, CancellationToken.None);
-
-        _repositoryMock.Verify(r => r.GetByTokenAsync(It.IsAny<string>()), Times.Once);
-        _mailerMock.Verify(m => m.Send(It.IsAny<Email>()), Times.Once);
-        _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Email>()), Times.Once);
+        )), Times.Once);
     }
 
     [Fact]
@@ -73,7 +78,7 @@ public class EmailResendCommandHandlerTest
         var expectedCommand = new EmailResendCommand("test_token"); 
         var expectedException = NotFoundException.ForClass("TestClass");
 
-        _repositoryMock.Setup(r => r.GetByTokenAsync(expectedCommand.Token))
+        _repositoryMock.Setup(r => r.GetByTokenAsync(It.IsAny<string>()))
             .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
@@ -81,6 +86,7 @@ public class EmailResendCommandHandlerTest
         });
 
         _repositoryMock.Verify(r => r.GetByTokenAsync(It.IsAny<string>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByTokenAsync(expectedCommand.Token), Times.Once);
         _mailerMock.Verify(m => m.Send(It.IsAny<Email>()), Times.Never);
         _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Email>()), Times.Never);
 

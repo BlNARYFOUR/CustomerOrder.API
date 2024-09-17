@@ -37,24 +37,28 @@ public class CustomerUpdateCommandHandlerTest
         var expectedCustomer = new Customer(expectedCommand.FirstName, expectedCommand.LastName, expectedCommand.Email) { Id = expectedCommand.Id };
         var customer = new Customer("test_first_name_original", "test_last_name_original", "test_email_original") { Id = expectedCustomer.Id };
 
-        _repositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.Id))
+        _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Returns(Task.FromResult(customer));
-        _repositoryMock.Setup(r => r.FindByEmailAsync(expectedCommand.Email))
+        _repositoryMock.Setup(r => r.FindByEmailAsync(It.IsAny<string>()))
             .Returns(Task.FromResult<Customer?>(null));
-        _repositoryMock.Setup(r => r.UpdateAsync(It.Is<Customer>(
+        _repositoryMock.Setup(r => r.UpdateAsync(It.IsAny<Customer>()))
+            .Returns(Task.FromResult(expectedCustomer));
+
+        await _commandHandler.Handle(expectedCommand, CancellationToken.None);
+
+        _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByIdAsync(expectedCommand.Id), Times.Once);
+        _repositoryMock.Verify(r => r.FindByEmailAsync(It.IsAny<string>()), Times.Once);
+        _repositoryMock.Verify(r => r.FindByEmailAsync(expectedCommand.Email), Times.Once);
+        _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Customer>()), Times.Once);
+        _repositoryMock.Verify(r => r.UpdateAsync(It.Is<Customer>(
             c => expectedCustomer.Id == c.Id
                 && expectedCustomer.FirstName == c.FirstName
                 && expectedCustomer.LastName == c.LastName
                 && expectedCustomer.Email == c.Email
                 && expectedCustomer.NumberOfOrders == c.NumberOfOrders
                 && expectedCustomer.Orders.Count == c.Orders.Count
-        ))).Returns(Task.FromResult(expectedCustomer));
-
-        await _commandHandler.Handle(expectedCommand, CancellationToken.None);
-
-        _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
-        _repositoryMock.Verify(r => r.FindByEmailAsync(It.IsAny<string>()), Times.Once);
-        _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Customer>()), Times.Once);
+        )), Times.Once);
     }
 
     [Fact]
@@ -63,7 +67,7 @@ public class CustomerUpdateCommandHandlerTest
         var expectedCommand = new CustomerUpdateCommand(1234, "test_first_name_updated", "test_last_name_updated", "test_email_updated");
         var expectedException = NotFoundException.ForClass("TestClass");
         
-        _repositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.Id))
+        _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
@@ -71,6 +75,7 @@ public class CustomerUpdateCommandHandlerTest
         });
 
         _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByIdAsync(expectedCommand.Id), Times.Once);
         _repositoryMock.Verify(r => r.FindByEmailAsync(It.IsAny<string>()), Times.Never);
         _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Customer>()), Times.Never);
 
@@ -84,9 +89,9 @@ public class CustomerUpdateCommandHandlerTest
         var customer = new Customer("test_first_name_original", "test_last_name_original", "test_email_original") { Id = expectedCommand.Id };
         var customerWithEmail = new Customer(expectedCommand.FirstName, expectedCommand.LastName, expectedCommand.Email) { Id = 4321 };
 
-        _repositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.Id))
+        _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
              .Returns(Task.FromResult(customer));
-        _repositoryMock.Setup(r => r.FindByEmailAsync(expectedCommand.Email))
+        _repositoryMock.Setup(r => r.FindByEmailAsync(It.IsAny<string>()))
             .Returns(Task.FromResult<Customer?>(customerWithEmail));
 
         var exception = await Assert.ThrowsAsync<ValidationException>(async () => {
@@ -94,7 +99,9 @@ public class CustomerUpdateCommandHandlerTest
         });
 
         _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByIdAsync(expectedCommand.Id), Times.Once);
         _repositoryMock.Verify(r => r.FindByEmailAsync(It.IsAny<string>()), Times.Once);
+        _repositoryMock.Verify(r => r.FindByEmailAsync(expectedCommand.Email), Times.Once);
         _repositoryMock.Verify(r => r.UpdateAsync(It.IsAny<Customer>()), Times.Never);
 
         Assert.Equal([new ValidationError("Email", "'Email' is already used.")], exception.Errors);

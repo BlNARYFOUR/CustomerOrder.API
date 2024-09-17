@@ -48,10 +48,19 @@ public class OrderCreateCommandHandlerTest
         var expectedCustomer = new Customer("test_first_name", "test_last_name", "test_email") { Id = expectedCommand.CustomerId };
         var orderWithId = new Order(expectedCommand.CustomerId, expectedCommand.Description, expectedCommand.Price, expectedDate) { Id = 1234 };
 
-        _dateTimeProviderMock.Setup(s => s.Now()).Returns(expectedDate);
-        _customerRepositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.CustomerId))
+        _dateTimeProviderMock.Setup(s => s.Now())
+            .Returns(expectedDate);
+        _customerRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Returns(Task.FromResult(expectedCustomer));
-        _orderRepositoryMock.Setup(r => r.CreateAsync(It.Is<Order>(
+        _orderRepositoryMock.Setup(r => r.CreateAsync(It.IsAny<Order>()))
+            .Returns(Task.FromResult(orderWithId));
+
+        int result = await _commandHandler.Handle(expectedCommand, CancellationToken.None);
+
+        _customerRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _customerRepositoryMock.Verify(r => r.GetByIdAsync(expectedCommand.CustomerId), Times.Once);
+        _orderRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Order>()), Times.Once);
+        _orderRepositoryMock.Verify(r => r.CreateAsync(It.Is<Order>(
             o => expectedOrder.Id == o.Id
                 && expectedOrder.Description == o.Description
                 && expectedOrder.Price == o.Price
@@ -59,12 +68,9 @@ public class OrderCreateCommandHandlerTest
                 && expectedOrder.CustomerId == o.CustomerId
                 && expectedOrder.Customer == o.Customer
                 && expectedOrder.Status == o.Status
-        ))).Returns(Task.FromResult(orderWithId));
+        )), Times.Once);
 
-        await _commandHandler.Handle(expectedCommand, CancellationToken.None);
-
-        _customerRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
-        _orderRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Order>()), Times.Once);
+        Assert.Equal(orderWithId.Id, result);
     }
 
     [Fact]
@@ -73,7 +79,7 @@ public class OrderCreateCommandHandlerTest
         var expectedCommand = new OrderCreateCommand(4321, "test_description", 1.23);
         var expectedException = NotFoundException.ForClass("TestClass");
 
-        _customerRepositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.CustomerId))
+        _customerRepositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
@@ -81,6 +87,7 @@ public class OrderCreateCommandHandlerTest
         });
 
         _customerRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _customerRepositoryMock.Verify(r => r.GetByIdAsync(expectedCommand.CustomerId), Times.Once);
         _orderRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Order>()), Times.Never);
 
         Assert.Equal(expectedException.Message, exception.Message);

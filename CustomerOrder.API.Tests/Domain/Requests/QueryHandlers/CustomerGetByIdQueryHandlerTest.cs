@@ -35,12 +35,14 @@ public class CustomerGetByIdQueryHandlerTest
         var expectedQuery = new CustomerGetByIdQuery(1234);
         var expectedCustomer = new Customer("test_first_name", "test_last_name", "test_email") { Id = expectedQuery.Id };
 
-        _repositoryMock.Setup(r => r.GetByIdAsync(expectedQuery.Id))
+        _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Returns(Task.FromResult(expectedCustomer));
 
         Customer result = await _queryHandler.Handle(expectedQuery, CancellationToken.None);
 
         _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByIdAsync(expectedQuery.Id), Times.Once);
+
         Assert.Equal(expectedCustomer, result);
     }
 
@@ -50,7 +52,7 @@ public class CustomerGetByIdQueryHandlerTest
         var expectedQuery = new CustomerGetByIdQuery(1234);
         var expectedException = NotFoundException.ForClass("TestClass");
 
-        _repositoryMock.Setup(r => r.GetByIdAsync(expectedQuery.Id))
+        _repositoryMock.Setup(r => r.GetByIdAsync(It.IsAny<int>()))
             .Throws(expectedException);
 
         var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
@@ -58,6 +60,8 @@ public class CustomerGetByIdQueryHandlerTest
         });
 
         _repositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _repositoryMock.Verify(r => r.GetByIdAsync(expectedQuery.Id), Times.Once);
+
         Assert.Equal(expectedException.Message, exception.Message);
     }
 }
