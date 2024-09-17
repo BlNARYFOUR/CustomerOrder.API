@@ -17,6 +17,7 @@ public class EmailResendCommandHandler(
     public async Task Handle(EmailResendCommand command, CancellationToken cancellationToken)
     {
         var email = await _repository.GetByTokenAsync(command.Token);
-        _mailer.Send(email);
+        email.Token = _mailer.Send(email);
+        await _repository.UpdateAsync(email);
     }
 }

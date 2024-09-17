@@ -29,4 +29,12 @@ public class EmailRepository(CustomerOrderContext context) : IEmailRepository
 
         return email;
     }
+
+    public async Task<Email> UpdateAsync(Email email)
+    {
+        var updatedEmail = _context.Emails.Update(email).Entity;
+        await _context.SaveChangesAsync();
+
+        return updatedEmail;
+    }
 }

@@ -42,10 +42,10 @@ public class CustomerRepository(CustomerOrderContext context) : ICustomerReposit
 
     public async Task<Customer> UpdateAsync(Customer customer)
     {
-        var createdCustomer = _context.Customers.Update(customer).Entity;
+        var updatedCustomer = _context.Customers.Update(customer).Entity;
         await _context.SaveChangesAsync();
 
-        return createdCustomer;
+        return updatedCustomer;
     }
 
     public async Task IncreaseNumberOfOrdersAsync(int id)

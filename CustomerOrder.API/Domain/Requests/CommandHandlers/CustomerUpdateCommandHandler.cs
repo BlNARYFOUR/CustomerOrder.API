@@ -1,9 +1,7 @@
-﻿using CustomerOrder.API.Domain.Entities;
-using CustomerOrder.API.Domain.Exceptions;
+﻿using CustomerOrder.API.Domain.Exceptions;
 using CustomerOrder.API.Domain.Models;
 using CustomerOrder.API.Domain.Repositories;
 using CustomerOrder.API.Domain.Requests.Commands;
-using CustomerOrder.API.Infrastructure.Repositories;
 using MediatR;
 
 namespace CustomerOrder.API.Domain.Requests.CommandHandlers;
