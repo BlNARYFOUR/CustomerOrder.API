@@ -66,4 +66,23 @@ public class OrderCreateCommandHandlerTest
         _customerRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
         _orderRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Order>()), Times.Once);
     }
+
+    [Fact]
+    public async Task ItPropegatesNotFoundExceptionTest()
+    {
+        var expectedCommand = new OrderCreateCommand(4321, "test_description", 1.23);
+        var expectedException = NotFoundException.ForClass("TestClass");
+
+        _customerRepositoryMock.Setup(r => r.GetByIdAsync(expectedCommand.CustomerId))
+            .Throws(expectedException);
+
+        var exception = await Assert.ThrowsAsync<NotFoundException>(async () => {
+            await _commandHandler.Handle(expectedCommand, CancellationToken.None);
+        });
+
+        _customerRepositoryMock.Verify(r => r.GetByIdAsync(It.IsAny<int>()), Times.Once);
+        _orderRepositoryMock.Verify(r => r.CreateAsync(It.IsAny<Order>()), Times.Never);
+
+        Assert.Equal(expectedException.Message, exception.Message);
+    }
 }
