@@ -28,7 +28,7 @@ public class EmailResendCommandHandlerTest
     }
 
     [Fact]
-    public void ItIsACommandtHandlerTest()
+    public void ItIsACommandHandlerTest()
     {
         Assert.IsAssignableFrom<IRequestHandler<EmailResendCommand>>(_commandHandler);
     }

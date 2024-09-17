@@ -25,7 +25,7 @@ public class CustomerCreateCommandHandlerTest
     }
 
     [Fact]
-    public void ItIsACommandtHandlerTest()
+    public void ItIsACommandHandlerTest()
     {
         Assert.IsAssignableFrom<IRequestHandler<CustomerCreateCommand, int>>(_commandHandler);
     }
