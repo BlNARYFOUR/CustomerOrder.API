@@ -7,7 +7,7 @@ public class ValidationException(params ValidationError[] errors) : Exception()
     public ValidationError[] Errors { get; } = errors;
 }
 
-// todo
+// Example (todo: implementation for all exceptions)
 public class SomeException : Exception
 {
     public SomeException()
