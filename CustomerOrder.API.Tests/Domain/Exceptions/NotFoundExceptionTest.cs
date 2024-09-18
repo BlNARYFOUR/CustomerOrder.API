@@ -31,4 +31,21 @@ public class NotFoundExceptionTest
         Assert.IsType<NotFoundException>(exception);
         Assert.Equal("Resource not found. For class TestClass", exception.Message);
     }
+
+    [Fact]
+    public void ItCanBeConstructedWithoutArgumentsTest()
+    {
+        var exception = new NotFoundException();
+        Assert.Equal($"Exception of type '{typeof(NotFoundException)}' was thrown.", exception.Message);
+    }
+
+    [Fact]
+    public void ItCanBeConstructedWithAMessageAndAnInnerExceptionTest()
+    {
+        var innerException = new Exception("test_inner");
+        var exception = new NotFoundException("test_message", innerException);
+
+        Assert.Equal("test_message", exception.Message);
+        Assert.Equal(innerException, exception.InnerException);
+    }
 }

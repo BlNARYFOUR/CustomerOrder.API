@@ -25,6 +25,29 @@ public class ValidationExceptionTest
     }
 
     [Fact]
+    public void ItHasAMessageTest()
+    {
+        Assert.Equal($"Exception of type '{typeof(ValidationException)}' was thrown.", _exception.Message);
+    }
+
+    [Fact]
+    public void ItCanBeConstructedWithAMessageTest()
+    {
+        var exception = new ValidationException("test_message");
+        Assert.Equal("test_message", exception.Message);
+    }
+
+    [Fact]
+    public void ItCanBeConstructedWithAMessageAndAnInnerExceptionTest()
+    {
+        var innerException = new Exception("test_inner");
+        var exception = new ValidationException("test_message", innerException);
+
+        Assert.Equal("test_message", exception.Message);
+        Assert.Equal(innerException, exception.InnerException);
+    }
+
+    [Fact]
     public void ItCanBeConstructedWithOneErrorTest()
     {
         var expectedError1 = new ValidationError("prop_1", "message_1");
