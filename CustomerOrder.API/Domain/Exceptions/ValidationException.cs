@@ -2,23 +2,15 @@
 
 namespace CustomerOrder.API.Domain.Exceptions;
 
-public class ValidationException(params ValidationError[] errors) : Exception()
+public class ValidationException : Exception
 {
-    public ValidationError[] Errors { get; } = errors;
-}
+    public ValidationError[] Errors { get; } = [];
 
-// Example (todo: implementation for all exceptions)
-public class SomeException : Exception
-{
-    public SomeException()
-    {
-    }
+    public ValidationException(params ValidationError[] errors) : base() => Errors = errors;
 
-    public SomeException(string? message) : base(message)
-    {
-    }
+    public ValidationException() : base() {}
 
-    public SomeException(string? message, Exception? innerException) : base(message, innerException)
-    {
-    }
+    public ValidationException(string? message) : base(message) {}
+
+    public ValidationException(string? message, Exception? innerException) : base(message, innerException) {}
 }
